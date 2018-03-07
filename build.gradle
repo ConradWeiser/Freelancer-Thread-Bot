@@ -1,0 +1,20 @@
+group 'discordfreelancerbot'
+version '1.0-SNAPSHOT'
+
+apply plugin: 'java'
+
+def jdaVersion = '3.5.0_327'
+
+sourceCompatibility = 1.8
+
+repositories {
+    mavenCentral()
+    jcenter()
+}
+
+dependencies {
+
+    //JDA library to Discord
+    compile "net.dv8tion:JDA:$jdaVersion"
+
+}
