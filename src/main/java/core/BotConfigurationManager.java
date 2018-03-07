@@ -59,7 +59,6 @@ public String getPropertyValue(ConfigurationVariable requestedVariable) {
             case MYSQL_PASSWORD: return props.getProperty("MYSQL_Password");
             case MYSQL_DATABASE_NAME: return props.getProperty("MYSQL_Database_Name");
             case BOT_COMMAND_TRIGGER: return props.getProperty("Bot_Command_Trigger");
-            case LEAGUE_OF_LEGENDS_API_KEY: return props.getProperty("League_of_Legends_API_Key");
         }
 
         //It's impossible to get here. Return an empty string.
@@ -73,7 +72,6 @@ public String getPropertyValue(ConfigurationVariable requestedVariable) {
         props.setProperty("MYSQL_Username", "FillMeIn");
         props.setProperty("MYSQL_Password", "FillMeIn");
         props.setProperty("Discord_Bot_API_Key", "FillMeIn");
-        props.setProperty("League_of_Legends_API_Key", "FillMeIn");
         props.setProperty("Bot_Command_Trigger", "!");
 
         File configFile = new File(propertyFilePath);
