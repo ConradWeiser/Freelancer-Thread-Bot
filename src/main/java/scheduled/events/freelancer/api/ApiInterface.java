@@ -1,6 +1,6 @@
-package api;
+package scheduled.events.freelancer.api;
 
-import api.elements.CommunicationThreadElement;
+import scheduled.events.freelancer.api.elements.CommunicationThreadElement;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
@@ -25,9 +25,7 @@ public class ApiInterface {
         /**
          * Object containing the HTML response for the DiscoveryGC Communication(s) section
          */
-        Document doc = null;
-
-        doc = Jsoup.connect("https://discoverygc.com/forums/archive/index.php?forum-59.html").get();
+        Document doc = Jsoup.connect("https://discoverygc.com/forums/archive/index.php?forum-59.html").get();
 
         List<CommunicationThreadElement> threadList = new Vector<>();
 
