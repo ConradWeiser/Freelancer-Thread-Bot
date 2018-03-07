@@ -2,6 +2,7 @@ package commands;
 
 import commands.basic.BasicModule;
 import commands.user.UserModule;
+import commands.watcher.WatcherModule;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -20,6 +21,7 @@ public class CommandManager {
         //Insert the modules here
         this.modules.add(new BasicModule());
         this.modules.add(new UserModule());
+        this.modules.add(new WatcherModule());
 
     }
 

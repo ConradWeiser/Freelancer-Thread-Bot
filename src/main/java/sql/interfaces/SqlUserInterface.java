@@ -7,6 +7,8 @@ import sql.exceptions.UserNotExistsException;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.List;
+import java.util.Vector;
 
 import static sql.enums.UserAdministratorState.*;
 
@@ -120,10 +122,10 @@ public class SqlUserInterface extends SqlGenericInterface {
         this.executeInsertStatement(queryBuilder.toString());
     }
 
-    public void addKeywordToUser(String userId, String keyword) {
+    private int getUserIdFromDatabaseByDiscordId(String userId) {
 
         //First get the SQL userID for the user asking
-        String uid;
+        int uid;
         String uidQuery = "SELECT id FROM discord_users WHERE snowflake_id = " + userId;
 
         try {
@@ -131,13 +133,21 @@ public class SqlUserInterface extends SqlGenericInterface {
             ResultSet result = this.executeSelectStatement(uidQuery);
 
             result.next();
-            uid = result.getString(1);
+            uid = result.getInt(1);
 
         } catch (SQLException e) {
             //TODO: Bot logger
             System.err.println(e.getMessage());
-            return;
+            return -1;
         }
+
+        return uid;
+
+    }
+
+    public void addKeywordToUser(String userId, String keyword) {
+
+        int uid = this.getUserIdFromDatabaseByDiscordId(userId);
 
         //Create the query for inserting into the Keyword table
         String insertQuery = "INSERT IGNORE INTO user_keywords (uid, keyword) VALUES (" + uid + ",\"" + keyword +"\")";
@@ -146,6 +156,34 @@ public class SqlUserInterface extends SqlGenericInterface {
 
         //Execute the statement
         this.executeInsertStatement(insertQuery);
+    }
+
+    public List<String> getUserKeywords(String userId) {
+
+        int uid = this.getUserIdFromDatabaseByDiscordId(userId);
+
+        //Create the query for getting all of the keywords
+        String selectQuery = "SELECT keyword FROM user_keywords WHERE uid = " + uid;
+        List<String> keywordList = new Vector<>();
+
+        try {
+
+            ResultSet result = this.executeSelectStatement(selectQuery);
+
+            //Get all of the keywords and add them to the list.
+            while(result.next()) {
+
+                keywordList.add(result.getString(1));
+
+            }
+        } catch (SQLException ex) {
+
+            //TODO: Bot error logger
+
+        }
+
+        return keywordList;
+
     }
 
 
