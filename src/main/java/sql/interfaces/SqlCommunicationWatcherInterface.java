@@ -55,7 +55,7 @@ public class SqlCommunicationWatcherInterface extends SqlGenericInterface{
             element.setThreadTitle(result.getString(1));
             element.setThreadUrl(result.getString(2));
             element.setReplyCount(result.getInt(3));
-            element.setTimestamp(result.getDate(4));
+            element.setTimestamp(result.getTimestamp(4));
 
         } catch (SQLException ex) {
 
@@ -73,7 +73,7 @@ public class SqlCommunicationWatcherInterface extends SqlGenericInterface{
             statement.setString(1, element.getThreadTitle());
             statement.setString(2, element.getThreadUrl());
             statement.setInt(3, element.getReplyCount());
-            statement.setDate(4, element.getTimestamp());
+            statement.setTimestamp(4, element.getTimestamp());
             statement.executeUpdate();
         } catch (SQLException ex) {
 
