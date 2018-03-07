@@ -24,7 +24,7 @@ public class AddKeywordCommand extends Command{
         }
 
         //Parse out the keyword phrase
-        String keywordPhrase = event.getMessage().getContentRaw().substring(7);
+        String keywordPhrase = event.getMessage().getContentRaw().substring(7).replace("\\n", " ");
 
         //Insert the keyword phrase
         sql.addKeywordToUser(event.getAuthor().getId(), keywordPhrase);
