@@ -1,6 +1,7 @@
 package commands;
 
 import core.BotConfigurationManager;
+import core.enums.ConfigurationVariable;
 import net.dv8tion.jda.core.entities.Message;
 import net.dv8tion.jda.core.events.message.MessageReceivedEvent;
 import net.dv8tion.jda.core.hooks.ListenerAdapter;
@@ -19,7 +20,7 @@ public class CommandListener extends ListenerAdapter{
 
         //If the message does not start with the command trigger set in the configuration file, ignore it
         if(!contents.startsWith(BotConfigurationManager.getInstance()
-                .getPropertyValue("BOT_COMMAND_TRIGGER"))) {
+                .getPropertyValue(ConfigurationVariable.BOT_COMMAND_TRIGGER))) {
 
             return;
 

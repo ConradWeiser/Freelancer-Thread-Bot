@@ -17,4 +17,9 @@ dependencies {
     //JDA library to Discord
     compile "net.dv8tion:JDA:$jdaVersion"
 
+    //JSoup for parsing HTML
+    // https://mvnrepository.com/artifact/org.jsoup/jsoup
+    compile group: 'org.jsoup', name: 'jsoup', version: '1.11.2'
+
+
 }
