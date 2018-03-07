@@ -18,7 +18,6 @@ public class ApiInterface {
 
     /**
      * Method which gets all of the recent posts in https://discoverygc.com/forums/archive/index.php?forum-59.html
-     * and stores them all fuck
      */
     public List<CommunicationThreadElement> getCommunicationChannelThreads() throws IOException {
 
