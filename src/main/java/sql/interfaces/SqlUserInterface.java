@@ -186,5 +186,16 @@ public class SqlUserInterface extends SqlGenericInterface {
 
     }
 
+    public void removeKeywordFromUser(String userId, String keyword) {
+
+        int uid = this.getUserIdFromDatabaseByDiscordId(userId);
+
+        //Create the query
+        String query = "DELETE FROM user_keywords WHERE uid = " + uid + " AND keyword = \"" + keyword + "\"";
+
+        System.out.println(query);
+        this.executeUpdateStatement(query);
+    }
+
 
 }

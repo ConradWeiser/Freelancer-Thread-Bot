@@ -10,6 +10,7 @@ public class WatcherModule extends CommandModule {
         //Add all of the available commands here
         this.addCommand(new AddKeywordCommand(this));
         this.addCommand(new ViewWatchlistCommand(this));
+        this.addCommand(new RemoveKeywordCommand(this));
     }
 
     @Override

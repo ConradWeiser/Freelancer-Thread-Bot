@@ -37,7 +37,7 @@ public class ViewWatchlistCommand extends Command {
 
         StringBuilder keywordList = new StringBuilder();
 
-        int keywordCounter = 1;
+        int keywordCounter = 0;
 
         for(String keyword : keywords) {
 
