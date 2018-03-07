@@ -1,101 +1,85 @@
 package core;
 
+import core.enums.ConfigurationVariable;
+
 import java.io.*;
 import java.util.Properties;
 
-/**
- * Created by Conrad on 6/1/2017.
- */
 public class BotConfigurationManager {
 
+    private static BotConfigurationManager instance;
+
+    //Only allow one instance of the ConfigurationManager to exist, to minimize resource use.
+    public static BotConfigurationManager getInstance() {
+
+        if(BotConfigurationManager.instance == null)
+            BotConfigurationManager.instance = new BotConfigurationManager();
+
+        return BotConfigurationManager.instance;
+
+    }
+
     String propertyFilePath = System.getenv("APPDATA") + "\\DiscordBot\\bot.conf";
-    public Properties props = null;
+    Properties props = null;
 
-    /**
-     * Constructor which loads the configuration file and populates the instance with the data.
-     * If one does not exist, it creates an empty config file and alerts the user to fill it out with the
-     * required information.
-     */
-    public BotConfigurationManager() {
+    protected BotConfigurationManager() {
 
-        //Load in the current properties file if it exists
         File configFile = new File(propertyFilePath);
         this.props = new Properties();
 
+        //Attempt to read the current configuration into the bot settings
         try {
 
             FileReader reader = new FileReader(configFile);
             props.load(reader);
 
-        } catch (FileNotFoundException e) {
+        } catch (IOException ex) {
 
-            //If the file does not required, run the method to create an empty configuration template file
-            System.err.println(String.format("Missing bot configuration file, please input details" +
-                    " at the following path: %s", propertyFilePath));
+            System.err.println(String.format("[ERROR] Missing Bot configuration file contents, please input details"
+            + "at the following path: %s", propertyFilePath));
 
-            this.createEmptyConfigFile();
+            try {
+ 
+                //Populate the configuration
+                createEmptyConfigFile();
 
-        } catch (IOException e) {
+            } catch (IOException e) {
 
-            e.printStackTrace();
-
+                System.err.println("[FATAL] An error has occurred trying to create the configuration directory and contents.");
+            }
         }
-
     }
 
-    public static BotConfigurationManager instance = null;
+public String getPropertyValue(ConfigurationVariable requestedVariable) {
 
-    /**
-     * Use singleton to only allow a single instance of the configuration manager to be active at a time
-     */
-    public static BotConfigurationManager getInstance() {
-        if(BotConfigurationManager.instance == null) {
-            BotConfigurationManager.instance = new BotConfigurationManager();
+        switch(requestedVariable) {
+
+            case DISCORD_BOT_API_KEY: return props.getProperty("Discord_Bot_API_Key");
+            case MYSQL_USERNAME: return props.getProperty("MYSQL_Username");
+            case MYSQL_PASSWORD: return props.getProperty("MYSQL_Password");
+            case MYSQL_DATABASE_NAME: return props.getProperty("MYSQL_Database_Name");
+            case BOT_COMMAND_TRIGGER: return props.getProperty("Bot_Command_Trigger");
+            case LEAGUE_OF_LEGENDS_API_KEY: return props.getProperty("League_of_Legends_API_Key");
         }
 
-        return BotConfigurationManager.instance;
-    }
+        //It's impossible to get here. Return an empty string.
+        return "";
+}
 
-    /**
-     * Method which looks into the configuration file, and retrieves a value from the Key/Value pair
-     * @param propertyName the property key value stored in the configuraiton file
-     * @return The value paired to the key parameter
-     */
-    public String getPropertyValue(String propertyName) {
+    private void createEmptyConfigFile() throws IOException {
 
-        if(props.getProperty(propertyName) == null) {
+        //Create the values which the bot requires to run
+        props.setProperty("MYSQL_Database_Name", "discordbot");
+        props.setProperty("MYSQL_Username", "FillMeIn");
+        props.setProperty("MYSQL_Password", "FillMeIn");
+        props.setProperty("Discord_Bot_API_Key", "FillMeIn");
+        props.setProperty("League_of_Legends_API_Key", "FillMeIn");
+        props.setProperty("Bot_Command_Trigger", "!");
 
-            System.err.println("[Warning] Failed to read property value for: " + propertyName);
-            return "";
-        }
-
-        else
-            return props.getProperty(propertyName);
-    }
-
-    /**
-     * Method which creates an empty configuration file
-     */
-    private void createEmptyConfigFile() {
-
-        //Create the values whih the system looks for
-        props.setProperty("DISCORD_BOT_API_KEY", "fillmein");
-
-        //By default the bot responds to the '!' keyword before a phrase or command
-        props.setProperty("BOT_COMMAND_TRIGGER", "!");
-
-        //Save the values as a new file
         File configFile = new File(propertyFilePath);
+        FileWriter writer = new FileWriter(configFile);
+        props.store(writer, "Bot Settings");
 
-        try {
-            FileWriter writer = new FileWriter(configFile);
-            props.store(writer, "Bot Settings");
-            writer.close();
-
-        } catch (IOException e) {
-            //Thrown when the bot could not create the config file.
-            System.err.println(String.format("Failed to write configuration at %s | Does the directory exist?",
-                    propertyFilePath));
-        }
+        writer.close();
     }
 }

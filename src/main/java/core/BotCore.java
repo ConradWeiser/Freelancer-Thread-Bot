@@ -1,6 +1,7 @@
 package core;
 
 import commands.CommandListener;
+import core.enums.ConfigurationVariable;
 import net.dv8tion.jda.core.AccountType;
 import net.dv8tion.jda.core.JDA;
 import net.dv8tion.jda.core.JDABuilder;
@@ -32,7 +33,7 @@ public class BotCore {
 
         try {
             this.jda = new JDABuilder(AccountType.BOT)
-                    .setToken(configurationManager.getPropertyValue("DISCORD_BOT_API_KEY"))
+                    .setToken(configurationManager.getPropertyValue(ConfigurationVariable.DISCORD_BOT_API_KEY))
                     .buildBlocking();
 
         } catch (InterruptedException e) {
