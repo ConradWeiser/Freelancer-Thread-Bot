@@ -1,6 +1,7 @@
 package commands;
 
 import commands.basic.BasicModule;
+import commands.user.UserModule;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -14,10 +15,11 @@ public class CommandManager {
 
     private CommandManager() {
 
-        this.modules = new ArrayList<CommandModule>();
+        this.modules = new ArrayList<>();
 
         //Insert the modules here
         this.modules.add(new BasicModule());
+        this.modules.add(new UserModule());
 
     }
 
