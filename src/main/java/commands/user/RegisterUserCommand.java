@@ -24,14 +24,14 @@ public class RegisterUserCommand extends Command {
         if(userInterface.userExists(discordId)) {
 
             //Send a message to the users DM inbox specifying such
-            event.getChannel().sendMessage("You are already registered with GhostBot!").queue();
+            event.getChannel().sendMessage("You are already registered with DGC-Watcher!").queue();
             return;
 
         }
 
         //If the user does not exist, add them to the database
         userInterface.registerDiscordUser(discordId, discordUsername);
-        event.getChannel().sendMessage("You've been registered with Ghostbot!\nCommands are now available for use.").queue();
+        event.getChannel().sendMessage("You've been registered with DGC-Watcher!\nCommands are now available for use.").queue();
 
     }
 }

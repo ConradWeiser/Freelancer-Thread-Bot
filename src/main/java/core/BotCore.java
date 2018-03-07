@@ -22,6 +22,7 @@ public class BotCore {
         //Create the Configuration mangaer and Bot Core instance.
         this.configurationManager = BotConfigurationManager.getInstance();
         this.createInstance();
+        this.attachCallbacks();
 
     }
 

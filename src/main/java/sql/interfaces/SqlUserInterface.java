@@ -120,5 +120,33 @@ public class SqlUserInterface extends SqlGenericInterface {
         this.executeInsertStatement(queryBuilder.toString());
     }
 
+    public void addKeywordToUser(String userId, String keyword) {
+
+        //First get the SQL userID for the user asking
+        String uid;
+        String uidQuery = "SELECT id FROM discord_users WHERE snowflake_id = " + userId;
+
+        try {
+
+            ResultSet result = this.executeSelectStatement(uidQuery);
+
+            result.next();
+            uid = result.getString(1);
+
+        } catch (SQLException e) {
+            //TODO: Bot logger
+            System.err.println(e.getMessage());
+            return;
+        }
+
+        //Create the query for inserting into the Keyword table
+        String insertQuery = "INSERT IGNORE INTO user_keywords (uid, keyword) VALUES (" + uid + ",\"" + keyword +"\")";
+
+        System.out.println(insertQuery);
+
+        //Execute the statement
+        this.executeInsertStatement(insertQuery);
+    }
+
 
 }
