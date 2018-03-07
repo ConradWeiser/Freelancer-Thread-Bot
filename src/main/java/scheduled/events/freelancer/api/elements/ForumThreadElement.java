@@ -1,11 +1,13 @@
 package scheduled.events.freelancer.api.elements;
 
+import scheduled.events.freelancer.api.enums.ThreadIdentifier;
+
 import java.sql.Date;
 import java.sql.Timestamp;
 
-public class CommunicationThreadElement {
+public class ForumThreadElement {
 
-    public CommunicationThreadElement() {
+    public ForumThreadElement() {
 
         //When the element is created, set the timestamp to now
         this.timestamp = new Timestamp(System.currentTimeMillis());
@@ -16,7 +18,15 @@ public class CommunicationThreadElement {
     String threadTitle;
     int replyCount;
     Timestamp timestamp;
+    ThreadIdentifier threadIdentifier;
 
+    public ThreadIdentifier getThreadIdentifier() {
+        return threadIdentifier;
+    }
+
+    public void setThreadIdentifier(ThreadIdentifier threadIdentifier) {
+        this.threadIdentifier = threadIdentifier;
+    }
 
     public String getThreadUrl() {
         return threadUrl;
