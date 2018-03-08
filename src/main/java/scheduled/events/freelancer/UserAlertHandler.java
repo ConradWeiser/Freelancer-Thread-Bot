@@ -60,7 +60,7 @@ public class UserAlertHandler {
 
                 for(ForumThreadElement newThread : newThreads) {
 
-                    if(newThread.getThreadTitle().contains(keyword.toLowerCase())) {
+                    if(newThread.getThreadTitle().toLowerCase().contains(keyword.toLowerCase())) {
 
                         newThreadAnnouncement.append(newThread.getThreadTitle()).append("\n");
 
@@ -69,7 +69,7 @@ public class UserAlertHandler {
 
                 for(ForumThreadElement updatedThread : updatedThreads) {
 
-                    if(updatedThread.getThreadTitle().contains(keyword.toLowerCase())) {
+                    if(updatedThread.getThreadTitle().toLowerCase().contains(keyword.toLowerCase())) {
 
                         updatedThreadAnnouncement.append(updatedThread.getThreadTitle()).append("\n");
                     }
