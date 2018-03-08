@@ -75,7 +75,7 @@ public class RemoveKeywordCommand extends Command{
         EmbedBuilder eb = new EmbedBuilder();
         eb.setTitle("Keywords removed");
         eb.setColor(Color.RED);
-        eb.setDescription("Removed " + removalKeywords.size() + " watch parameters!");
+        eb.setDescription("Removed " + removalKeywords.size() + " watch parameter(s)!");
         eb.addField("Removed keyphrases..", builder.toString(), false);
 
         event.getChannel().sendMessage(eb.build()).queue();

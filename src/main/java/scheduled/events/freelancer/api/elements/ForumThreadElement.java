@@ -20,6 +20,11 @@ public class ForumThreadElement {
     Timestamp timestamp;
     ThreadIdentifier threadIdentifier;
 
+    public void setTimestampToNow() {
+
+        this.timestamp = new Timestamp(System.currentTimeMillis());
+    }
+
     public ThreadIdentifier getThreadIdentifier() {
         return threadIdentifier;
     }
