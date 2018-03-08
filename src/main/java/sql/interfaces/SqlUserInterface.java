@@ -111,11 +111,11 @@ public class SqlUserInterface extends SqlGenericInterface {
 
         //Create the SQL query
         StringBuilder queryBuilder = new StringBuilder();
-        queryBuilder.append("INSERT INTO discord_users (snowflake_id, discord_name, private_channel_id) VALUES (");
+        queryBuilder.append("INSERT INTO discord_users (snowflake_id, discord_name) VALUES (");
         queryBuilder.append(userId);
         queryBuilder.append(", \"");
         queryBuilder.append(discordName);
-        queryBuilder.append("\",)");
+        queryBuilder.append("\")");
 
         System.out.println(queryBuilder.toString());
 
