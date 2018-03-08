@@ -84,9 +84,11 @@ public class ThreadScannerRunnable implements Runnable{
             ForumThreadElement existingElement = sql.getThreadElementByUrl(currentIteration.getThreadUrl());
 
             //Verify if it's new, or old, by comparing the view counts
-            if(currentIteration.getReplyCount() < existingElement.getReplyCount()) {
+            if(currentIteration.getReplyCount() > existingElement.getReplyCount()) {
 
                 this.updatedThreads.add(currentIteration);
+                //Update the database view count
+                sql.updateExistingThread(currentIteration);
                 iter.remove();
                 continue;
 
@@ -103,6 +105,10 @@ public class ThreadScannerRunnable implements Runnable{
 
         //Alert everyone relevent that there was a change
         userHandler.alertUsers(updatedThreads, newThreads);
+
+        //Clear the two lists now that we've used them both
+        updatedThreads.clear();
+        newThreads.clear();
 
         System.out.println("[Info] Completed event");
 

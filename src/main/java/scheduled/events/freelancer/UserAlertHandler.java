@@ -1,17 +1,20 @@
 package scheduled.events.freelancer;
 
 import core.BotCore;
+import net.dv8tion.jda.core.EmbedBuilder;
 import net.dv8tion.jda.core.JDA;
+import net.dv8tion.jda.core.entities.MessageEmbed;
 import net.dv8tion.jda.core.entities.PrivateChannel;
 import scheduled.events.freelancer.api.elements.ForumThreadElement;
 import scheduled.events.freelancer.api.elements.SqlUserElement;
 import sql.interfaces.SqlFreelancerInterface;
 import sql.interfaces.SqlUserInterface;
 
-import java.util.HashMap;
+import java.awt.*;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.*;
 import java.util.List;
-import java.util.Map;
-import java.util.Vector;
 
 public class UserAlertHandler {
 
@@ -50,15 +53,71 @@ public class UserAlertHandler {
         }
 
         // --------------------------------------
-        //Check to see if any of the NEW threads match something in the users
-        sendUserDiscordPrivateAlert("83036094215491584", "Fuck meeee");
+        //Check each keyword for the user, and check if any of the new, or updated threads has content
+        for(Map.Entry<String, List<String>> entry : userKeywordMap.entrySet()) {
+
+            for(String keyword : entry.getValue()) {
+
+                for(ForumThreadElement newThread : newThreads) {
+
+                    if(newThread.getThreadTitle().contains(keyword.toLowerCase())) {
+
+                        newThreadAnnouncement.append(newThread.getThreadTitle()).append("\n");
+
+                    }
+                }
+
+                for(ForumThreadElement updatedThread : updatedThreads) {
+
+                    if(updatedThread.getThreadTitle().contains(keyword.toLowerCase())) {
+
+                        updatedThreadAnnouncement.append(updatedThread.getThreadTitle()).append("\n");
+                    }
+                }
+            }
+
+            //If there was nothing new for the user, move on to the next user
+            if(newThreadAnnouncement.toString().length() == 0 && updatedThreadAnnouncement.toString().length() == 0) {
+
+                continue;
+
+            }
+
+
+            //Otherwise, there is content. Put it together for the user.
+            EmbedBuilder builder = new EmbedBuilder();
+            builder.setColor(Color.BLUE);
+            builder.setTitle("Thread Alert");
+
+            //Set the time this was observed at
+            DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
+            Date date = new Date();
+            builder.setDescription("Observed at: " + dateFormat.format(date));
+
+            if(newThreadAnnouncement.toString().length() > 0) {
+
+                builder.addField("New Thread(s)", newThreadAnnouncement.toString(), false);
+
+            }
+
+            if(updatedThreadAnnouncement.toString().length() > 0) {
+
+                builder.addField("New Reply(s) on following thread(s)", updatedThreadAnnouncement.toString(), false);
+            }
+
+            //Send the message to the user
+            sendUserDiscordPrivateAlert(entry.getKey(), builder.build());
+        }
+
+
+
 
     }
 
-    private void sendUserDiscordPrivateAlert(String userId, String message) {
+    private void sendUserDiscordPrivateAlert(String userId, MessageEmbed message) {
 
         currentDiscordInstance.getUserById(userId).openPrivateChannel().queue((privateChannel ->
-                privateChannel.sendMessage("Fuck meee").queue()));
+                privateChannel.sendMessage(message).queue()));
     }
 
 
