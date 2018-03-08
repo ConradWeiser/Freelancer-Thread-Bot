@@ -23,7 +23,8 @@ public class SqlFreelancerInterface extends SqlGenericInterface{
     public boolean threadElementExistsInDatabase(ForumThreadElement element) {
 
         //Build the SQL query
-        String query = "SELECT thread_url FROM freelancer_threads WHERE thread_url = " + element.getThreadUrl();
+        String query = "SELECT thread_url FROM freelancer_threads WHERE thread_url = \"" + element.getThreadUrl() + "\"";
+
 
         try {
 
@@ -43,7 +44,7 @@ public class SqlFreelancerInterface extends SqlGenericInterface{
     public ForumThreadElement getThreadElementByUrl(String url) {
 
         ForumThreadElement element = new ForumThreadElement();
-        String query = "SELECT * FROM freelancer_threads WHERE thread_url = " + url;
+        String query = "SELECT thread_title, thread_url, reply_count, thread_type FROM freelancer_threads WHERE thread_url = \"" + url + "\"";
 
         try {
 
@@ -56,10 +57,10 @@ public class SqlFreelancerInterface extends SqlGenericInterface{
             element.setThreadTitle(result.getString(1));
             element.setThreadUrl(result.getString(2));
             element.setReplyCount(result.getInt(3));
-            element.setTimestamp(result.getTimestamp(4));
+
 
             //Get the thread identifier, and parse it into it's java equivalent enumeration
-            switch(result.getString(5)) {
+            switch(result.getString(4)) {
 
                 case "communication": element.setThreadIdentifier(ThreadIdentifier.COMMUNICATION_THREADS);
                 default: element.setThreadIdentifier(ThreadIdentifier.UNKNOWN);
@@ -69,8 +70,10 @@ public class SqlFreelancerInterface extends SqlGenericInterface{
         } catch (SQLException ex) {
 
             //TODO: log this somehow
+            System.err.println(ex.getMessage());
 
         }
+
 
         return element;
     }
@@ -78,6 +81,7 @@ public class SqlFreelancerInterface extends SqlGenericInterface{
     public void addThreadToDatabase(ForumThreadElement element) {
 
         try {
+
             PreparedStatement statement = this.connection.prepareStatement("INSERT INTO freelancer_threads (thread_title, thread_url, reply_count, last_seen, thread_type) VALUES(?,?,?,?,?)");
             statement.setString(1, element.getThreadTitle());
             statement.setString(2, element.getThreadUrl());
@@ -92,9 +96,6 @@ public class SqlFreelancerInterface extends SqlGenericInterface{
 
             }
 
-            System.out.println("Executing");
-
-
             statement.executeUpdate();
 
         } catch (SQLException ex) {
@@ -104,6 +105,31 @@ public class SqlFreelancerInterface extends SqlGenericInterface{
         }
 
     }
+
+    public void updateExistingThread(ForumThreadElement element) {
+
+        try {
+
+            PreparedStatement statement = this.connection.prepareStatement("UPDATE freelancer_threads SET reply_count = ? WHERE thread_url = ?");
+            statement.setInt(1, element.getReplyCount());
+            statement.setString(2, element.getThreadUrl());
+
+            statement.executeUpdate();
+
+        } catch (SQLException ex) {
+
+            //TODO:Add the error to the botlogger whenever that is created
+            System.err.println(ex.getMessage());
+        }
+    }
+
+   /* public Map<String, List<String>> getKeywordsPerDiscordUser() {
+
+
+
+    }
+    */
+
 
 
 }
