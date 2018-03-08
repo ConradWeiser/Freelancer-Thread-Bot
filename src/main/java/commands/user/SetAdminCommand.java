@@ -39,7 +39,7 @@ public class SetAdminCommand extends Command {
             //Make sure that the user in question is currently registered as a member. If not, register them
             if(!userInterface.userExists(memberToPromote.getUser().getId())) {
 
-                userInterface.registerDiscordUser(memberToPromote.getUser().getId(), memberToPromote.getUser().getName());
+                userInterface.registerDiscordUser(memberToPromote.getUser().getId(), memberToPromote.getUser().getName(), memberToPromote.getDefaultChannel().getId());
             }
 
             //Set the user as an administrator

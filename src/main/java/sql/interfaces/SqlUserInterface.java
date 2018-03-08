@@ -1,5 +1,6 @@
 package sql.interfaces;
 
+import scheduled.events.freelancer.api.elements.SqlUserElement;
 import sql.enums.UserAdministratorState;
 import sql.exceptions.SqlStatementExecutionError;
 import sql.exceptions.UserNotAdministratorException;
@@ -106,14 +107,16 @@ public class SqlUserInterface extends SqlGenericInterface {
     /**
      * Method registering a user to the SQL database
      */
-    public void registerDiscordUser(String userId, String discordName) {
+    public void registerDiscordUser(String userId, String discordName, String privateChannelId) {
 
         //Create the SQL query
         StringBuilder queryBuilder = new StringBuilder();
-        queryBuilder.append("INSERT INTO discord_users (snowflake_id, discord_name) VALUES (");
+        queryBuilder.append("INSERT INTO discord_users (snowflake_id, discord_name, private_channel_id) VALUES (");
         queryBuilder.append(userId);
         queryBuilder.append(", \"");
         queryBuilder.append(discordName);
+        queryBuilder.append("\",\"");
+        queryBuilder.append(privateChannelId);
         queryBuilder.append("\")");
 
         System.out.println(queryBuilder.toString());
@@ -195,6 +198,37 @@ public class SqlUserInterface extends SqlGenericInterface {
 
         System.out.println(query);
         this.executeUpdateStatement(query);
+    }
+
+    public List<SqlUserElement> getAllDiscordUsers() {
+
+        String selectQuery = "SELECT * FROM discord_users";
+        List<SqlUserElement> userList = new Vector<>();
+
+        try {
+
+            ResultSet result = this.executeSelectStatement(selectQuery);
+
+            //Get all of the users and add them to the list
+            while(result.next()) {
+
+                SqlUserElement element = new SqlUserElement();
+                element.setId(result.getInt(1));
+                element.setDiscordId(result.getString(2));
+                element.setDiscordName(result.getString(3));
+                element.setAdmin(result.getBoolean(4));
+                element.setPrivateChannelId(result.getString(5));
+
+                userList.add(element);
+            }
+        } catch (SQLException ex) {
+
+            //TODO: Bot logger
+            ex.printStackTrace();
+            System.err.println(ex.getMessage());
+        }
+
+        return userList;
     }
 
 

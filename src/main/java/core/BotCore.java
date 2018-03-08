@@ -6,6 +6,7 @@ import net.dv8tion.jda.core.AccountType;
 import net.dv8tion.jda.core.JDA;
 import net.dv8tion.jda.core.JDABuilder;
 import net.dv8tion.jda.core.exceptions.RateLimitedException;
+import scheduled.events.freelancer.CommunicationThreadScanner;
 
 import javax.security.auth.login.LoginException;
 
@@ -14,8 +15,12 @@ import javax.security.auth.login.LoginException;
  */
 public class BotCore {
 
-    private JDA jda;
+    private static JDA jda;
     private BotConfigurationManager configurationManager = null;
+
+    public static JDA getJDA() {
+        return BotCore.jda;
+    }
 
     public BotCore() {
 
@@ -23,6 +28,8 @@ public class BotCore {
         this.configurationManager = BotConfigurationManager.getInstance();
         this.createInstance();
         this.attachCallbacks();
+
+        CommunicationThreadScanner scanner = new CommunicationThreadScanner();
 
     }
 
