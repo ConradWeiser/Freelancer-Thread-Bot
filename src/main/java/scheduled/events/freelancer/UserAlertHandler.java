@@ -2,6 +2,7 @@ package scheduled.events.freelancer;
 
 import core.BotCore;
 import net.dv8tion.jda.core.JDA;
+import net.dv8tion.jda.core.entities.PrivateChannel;
 import scheduled.events.freelancer.api.elements.ForumThreadElement;
 import scheduled.events.freelancer.api.elements.SqlUserElement;
 import sql.interfaces.SqlFreelancerInterface;
@@ -50,15 +51,17 @@ public class UserAlertHandler {
 
         // --------------------------------------
         //Check to see if any of the NEW threads match something in the users
-        sendUserDiscordPrivateAlert("420999545850429442", "Fuck meeee");
+        sendUserDiscordPrivateAlert("83036094215491584", "Fuck meeee");
 
     }
 
-    private void sendUserDiscordPrivateAlert(String discordPrivateChannelId, String message) {
+    private void sendUserDiscordPrivateAlert(String userId, String message) {
 
-        currentDiscordInstance.getPrivateChannelById(discordPrivateChannelId).sendMessage(message).queue();
-        System.out.println("Queued");
+        currentDiscordInstance.getUserById(userId).openPrivateChannel().queue((privateChannel ->
+                privateChannel.sendMessage("Fuck meee").queue()));
     }
+
+
 
 
 }

@@ -107,7 +107,7 @@ public class SqlUserInterface extends SqlGenericInterface {
     /**
      * Method registering a user to the SQL database
      */
-    public void registerDiscordUser(String userId, String discordName, String privateChannelId) {
+    public void registerDiscordUser(String userId, String discordName) {
 
         //Create the SQL query
         StringBuilder queryBuilder = new StringBuilder();
@@ -115,9 +115,7 @@ public class SqlUserInterface extends SqlGenericInterface {
         queryBuilder.append(userId);
         queryBuilder.append(", \"");
         queryBuilder.append(discordName);
-        queryBuilder.append("\",\"");
-        queryBuilder.append(privateChannelId);
-        queryBuilder.append("\")");
+        queryBuilder.append("\",)");
 
         System.out.println(queryBuilder.toString());
 
@@ -217,7 +215,6 @@ public class SqlUserInterface extends SqlGenericInterface {
                 element.setDiscordId(result.getString(2));
                 element.setDiscordName(result.getString(3));
                 element.setAdmin(result.getBoolean(4));
-                element.setPrivateChannelId(result.getString(5));
 
                 userList.add(element);
             }

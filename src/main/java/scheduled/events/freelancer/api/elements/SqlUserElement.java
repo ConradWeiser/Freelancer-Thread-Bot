@@ -5,16 +5,7 @@ public class SqlUserElement {
     int id;
     String discordId;
     String discordName;
-    String privateChannelId;
     boolean isAdmin;
-
-    public String getPrivateChannelId() {
-        return privateChannelId;
-    }
-
-    public void setPrivateChannelId(String privateChannelId) {
-        this.privateChannelId = privateChannelId;
-    }
 
     public int getId() {
         return id;

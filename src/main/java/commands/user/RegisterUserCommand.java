@@ -18,7 +18,6 @@ public class RegisterUserCommand extends Command {
         //Get the discordUserId and Username of the user requesting to be registered
         String discordUsername = event.getAuthor().getName();
         String discordId = event.getAuthor().getId();
-        String discordPrivateChannel = event.getPrivateChannel().getId();
 
         //Check to see if the user already exists
         SqlUserInterface userInterface = new SqlUserInterface();
@@ -31,7 +30,7 @@ public class RegisterUserCommand extends Command {
         }
 
         //If the user does not exist, add them to the database
-        userInterface.registerDiscordUser(discordId, discordUsername, discordPrivateChannel);
+        userInterface.registerDiscordUser(discordId, discordUsername);
         event.getChannel().sendMessage("You've been registered with DGC-Watcher!\nCommands are now available for use.").queue();
 
     }
