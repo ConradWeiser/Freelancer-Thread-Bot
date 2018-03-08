@@ -1,15 +1,30 @@
+plugins {
+    id'java'
+    id'idea'
+    id'application'
+    id'com.github.johnrengelman.shadow' version '2.0.1'
+}
+
+mainClassName = 'core.BotCore'
+
 group 'discordfreelancerbot'
 version '1.0-SNAPSHOT'
 
-apply plugin: 'java'
+sourceCompatibility = 1.8
 
 def jdaVersion = '3.5.0_327'
-
-sourceCompatibility = 1.8
 
 repositories {
     mavenCentral()
     jcenter()
+}
+
+jar {
+    manifest {
+        attributes(
+                'Main-Class': 'core.BotCore'
+        )
+    }
 }
 
 dependencies {
@@ -27,3 +42,5 @@ dependencies {
 
 
 }
+
+compileJava.options.encoding = 'UTF-8'
