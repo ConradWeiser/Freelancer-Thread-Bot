@@ -62,8 +62,12 @@ public class UserAlertHandler {
 
                     if(newThread.getThreadTitle().toLowerCase().contains(keyword.toLowerCase())) {
 
-                        newThreadAnnouncement.append(newThread.getThreadTitle()).append("\n");
+                        //Hacky way to make sure duplicates aren't added into the resulting string
+                        if(newThreadAnnouncement.toString().contains(newThread.getThreadTitle()))
+                            continue;
 
+                        newThreadAnnouncement.append(newThread.getThreadTitle()).append("\n");
+                        continue;
                     }
                 }
 
@@ -71,7 +75,13 @@ public class UserAlertHandler {
 
                     if(updatedThread.getThreadTitle().toLowerCase().contains(keyword.toLowerCase())) {
 
+                        //Hacky way to make sure duplicates aren't added into the resulting string
+                        if(updatedThreadAnnouncement.toString().contains(updatedThread.getThreadTitle()))
+                            continue;
+
                         updatedThreadAnnouncement.append(updatedThread.getThreadTitle()).append("\n");
+                        continue;
+
                     }
                 }
             }
@@ -82,6 +92,7 @@ public class UserAlertHandler {
                 continue;
 
             }
+
 
 
             //Otherwise, there is content. Put it together for the user.
@@ -119,7 +130,6 @@ public class UserAlertHandler {
         currentDiscordInstance.getUserById(userId).openPrivateChannel().queue((privateChannel ->
                 privateChannel.sendMessage(message).queue()));
     }
-
 
 
 
