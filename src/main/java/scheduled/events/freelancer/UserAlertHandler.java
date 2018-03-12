@@ -76,6 +76,7 @@ public class UserAlertHandler {
                     if(updatedThread.getThreadTitle().toLowerCase().contains(keyword.toLowerCase())) {
 
                         //Hacky way to make sure duplicates aren't added into the resulting string
+                        System.out.println("Alerting user: " + entry.getKey() + " of updated thread " + updatedThread.getThreadTitle());
                         if(updatedThreadAnnouncement.toString().contains(updatedThread.getThreadTitle()))
                             continue;
 

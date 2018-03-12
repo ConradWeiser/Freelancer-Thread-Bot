@@ -50,8 +50,6 @@ public class ThreadScannerRunnable implements Runnable{
     @Override
     public void run() {
 
-        System.out.println("[Info] Firing Event");
-
         List<ForumThreadElement> discoveredElements;
 
         //Get all of the new threads given the supplied threadUrl
@@ -109,8 +107,6 @@ public class ThreadScannerRunnable implements Runnable{
         //Clear the two lists now that we've used them both
         updatedThreads.clear();
         newThreads.clear();
-
-        System.out.println("[Info] Completed event");
 
     }
 
