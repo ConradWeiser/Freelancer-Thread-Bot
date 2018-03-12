@@ -1,6 +1,7 @@
 package core;
 
 import core.enums.ConfigurationVariable;
+import core.utility.FilePathManager;
 
 import java.io.*;
 import java.util.Properties;
@@ -19,12 +20,11 @@ public class BotConfigurationManager {
 
     }
 
-    String propertyFilePath = System.getenv("APPDATA") + "\\DiscordBot\\bot.conf";
     Properties props = null;
 
     protected BotConfigurationManager() {
 
-        File configFile = new File(propertyFilePath);
+        File configFile = FilePathManager.getBotConfigFile();
         this.props = new Properties();
 
         //Attempt to read the current configuration into the bot settings
@@ -36,7 +36,7 @@ public class BotConfigurationManager {
         } catch (IOException ex) {
 
             System.err.println(String.format("[ERROR] Missing Bot configuration file contents, please input details"
-            + "at the following path: %s", propertyFilePath));
+            + "at the following path: %s", FilePathManager.getBotConfigFile().toString()));
 
             try {
  
@@ -74,7 +74,7 @@ public String getPropertyValue(ConfigurationVariable requestedVariable) {
         props.setProperty("Discord_Bot_API_Key", "FillMeIn");
         props.setProperty("Bot_Command_Trigger", "!");
 
-        File configFile = new File(propertyFilePath);
+        File configFile = FilePathManager.getBotConfigFile();
         FileWriter writer = new FileWriter(configFile);
         props.store(writer, "Bot Settings");
 
