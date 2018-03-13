@@ -27,6 +27,6 @@ public class CommunicationThreadScanner {
 
         //A handler variable we can use to access the reporter
         //TODO: Implement control methods
-        final ScheduledFuture<?> reportHandler = scheduler.scheduleAtFixedRate(reporter, 1, 2, TimeUnit.MINUTES);
+        final ScheduledFuture<?> reportHandler = scheduler.scheduleAtFixedRate(reporter, 0, 2, TimeUnit.MINUTES);
     }
 }
