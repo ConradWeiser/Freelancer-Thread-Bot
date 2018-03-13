@@ -66,8 +66,12 @@ public class UserAlertHandler {
                         if(newThreadAnnouncement.toString().contains(newThread.getThreadTitle()))
                             continue;
 
-                        newThreadAnnouncement.append(newThread.getThreadTitle()).append("\n");
-                        continue;
+                        //Update the URL to not point to the archived version of the thread
+                        String threadUrl = newThread.getThreadUrl().replaceAll("/archive/", "/");
+
+                        newThreadAnnouncement.append("[").append(newThread.getThreadTitle()).append("]")
+                                .append("(").append(threadUrl).append(")\n");
+
                     }
                 }
 
@@ -80,8 +84,11 @@ public class UserAlertHandler {
                         if(updatedThreadAnnouncement.toString().contains(updatedThread.getThreadTitle()))
                             continue;
 
-                        updatedThreadAnnouncement.append(updatedThread.getThreadTitle()).append("\n");
-                        continue;
+                        //Update the URL to not point to the archived version of the thread
+                        String threadUrl = updatedThread.getThreadUrl().replaceAll("/archive/", "/");
+
+                        updatedThreadAnnouncement.append("[").append(updatedThread.getThreadTitle()).append("]")
+                                .append("(").append(threadUrl).append(")\n");
 
                     }
                 }
