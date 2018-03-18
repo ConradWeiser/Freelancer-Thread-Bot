@@ -67,7 +67,8 @@ public class UserAlertHandler {
                             continue;
 
                         //Update the URL to not point to the archived version of the thread
-                        String threadUrl = newThread.getThreadUrl().replaceAll("/archive/", "/");
+                        String threadId = newThread.getThreadUrl().substring(newThread.getThreadUrl().indexOf("?")).substring(7, 13);
+                        String threadUrl = "https://discoverygc.com/forums/showthread.php?tid=" + threadId;
 
                         newThreadAnnouncement.append("[").append(newThread.getThreadTitle()).append("]")
                                 .append("(").append(threadUrl).append(")\n");
